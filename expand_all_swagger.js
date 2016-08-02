@@ -1,14 +1,13 @@
 function clickElements(elements){
 	elements.each( function( index, element ){
-	console.log('clickElements element.click()');
+	console.log('************** clickElements element.click()');
 		element.click();
 	});
 	
 }
 
-function hasItemsToExpand(){
+function hasItemsToExpand(elements){
 	console.log('hasItemsToExpand');
-	var elements = $('span.toggle-handle');
 	var result = false;
 	
 	if(elements.length>0){
@@ -30,38 +29,38 @@ var itemClicked =false;
 function getChilds(){
 	var elements = $('span.toggle-handle');
 	
-	if(hasItemsToExpand()){
-		if(elements.length>0){
-			
-					itemClicked = false;	
-			elements.each( function( index, element ){
+	itemClicked = false;	
+	console.log('getChilds | elements: '+elements);
+
+	if(elements != undefined){
+	
+		if(hasItemsToExpand(elements)){
+		
+			if(elements.length>0){
 				
-				if($(this).css('transform')!='none'){
-					console.log('getChilds element.click()');
-					itemClicked = true;
-					element.click();
-				}
-				
-			});
+				elements.each( function( index, element ){
+					
+					if($(this).css('transform')!='none'){
+						console.log('getChilds element.click()');
+						itemClicked = true;
+						element.click();
+					}
+					
+				});
+			}
 		}
-	}else{
-		clickElements(elements);
 	}
 	console.log('getChilds itemClicked: '+itemClicked);
+	if(itemClicked){
+		getChilds();
+	}
 }
 
 
 function start(){
-	
-	var elements = $('span.toggle-handle');
-	
+	console.log('start');	
+	// recursive function
 	getChilds();
-	console.log('start | itemClicked: '+itemClicked);
-	if(itemClicked){
-		console.log('start');
-		itemClicked = false;
-		getChilds();
-	}
-	
+	console.log('finish | itemClicked: '+itemClicked);
 }
 start();
